@@ -12,50 +12,66 @@ class DemoUserSeeder extends Seeder
 {
     public function run(): void
     {
-        // Create Admin User
-        $admin = User::create([
-            'name' => 'System Administrator',
-            'email' => 'admin@ustp.edu.ph',
-            'password' => Hash::make('password'),
-            'role' => 'admin',
-            'is_verified' => true,
-        ]);
+        // Upsert Admin User
+        $admin = User::updateOrCreate(
+            [
+                'email' => 'admin@ustp.edu.ph',
+            ],
+            [
+                'name' => 'System Administrator',
+                'password' => Hash::make('password'),
+                'role' => 'admin',
+                'is_verified' => true,
+            ]
+        );
 
-        // Create Staff User
-        $staff = User::create([
-            'name' => 'Career Center Staff',
-            'email' => 'staff@ustp.edu.ph',
-            'password' => Hash::make('password'),
-            'role' => 'staff',
-            'is_verified' => true,
-        ]);
+        // Upsert Staff User
+        $staff = User::updateOrCreate(
+            [
+                'email' => 'staff@ustp.edu.ph',
+            ],
+            [
+                'name' => 'Career Center Staff',
+                'password' => Hash::make('password'),
+                'role' => 'staff',
+                'is_verified' => true,
+            ]
+        );
 
-        // Create Graduate User
-        $graduate = User::create([
-            'name' => 'John Doe',
-            'email' => 'graduate@ustp.edu.ph',
-            'password' => Hash::make('password'),
-            'role' => 'graduate',
-            'is_verified' => true,
-        ]);
+        // Upsert Graduate User
+        $graduate = User::updateOrCreate(
+            [
+                'email' => 'graduate@ustp.edu.ph',
+            ],
+            [
+                'name' => 'John Doe',
+                'password' => Hash::make('password'),
+                'role' => 'graduate',
+                'is_verified' => true,
+            ]
+        );
 
-        // Create Graduate Profile
-        Graduate::create([
-            'user_id' => $graduate->id,
-            'student_id' => '2020-12345',
-            'program' => 'Bachelor of Science in Computer Engineering',
-            'batch_year' => '2020',
-            'graduation_date' => '2024-06-15',
-            'phone' => '+63 912 345 6789',
-            'address' => 'Cagayan de Oro City, Philippines',
-            'linkedin_profile' => 'https://linkedin.com/in/johndoe',
-            'bio' => 'Recent graduate with passion for software development and technology innovation.',
-            'is_employed' => true,
-            'current_position' => 'Software Engineer',
-            'current_company' => 'Tech Solutions Inc.',
-            'employment_start_date' => '2024-07-01',
-            'salary' => 35000.00,
-        ]);
+        // Upsert Graduate Profile
+        Graduate::updateOrCreate(
+            [
+                'user_id' => $graduate->id,
+            ],
+            [
+                'student_id' => '2020-12345',
+                'program' => 'Bachelor of Science in Computer Engineering',
+                'batch_year' => '2020',
+                'graduation_date' => '2024-06-15',
+                'phone' => '+63 912 345 6789',
+                'address' => 'Cagayan de Oro City, Philippines',
+                'linkedin_profile' => 'https://linkedin.com/in/johndoe',
+                'bio' => 'Recent graduate with passion for software development and technology innovation.',
+                'is_employed' => true,
+                'current_position' => 'Software Engineer',
+                'current_company' => 'Tech Solutions Inc.',
+                'employment_start_date' => '2024-07-01',
+                'salary' => 35000.00,
+            ]
+        );
 
         // Create additional sample graduates
         $graduates = [
@@ -88,27 +104,35 @@ class DemoUserSeeder extends Seeder
         ];
 
         foreach ($graduates as $gradData) {
-            $user = User::create([
-                'name' => $gradData['name'],
-                'email' => $gradData['email'],
-                'password' => Hash::make('password'),
-                'role' => 'graduate',
-            ]);
+            $user = User::updateOrCreate(
+                [
+                    'email' => $gradData['email'],
+                ],
+                [
+                    'name' => $gradData['name'],
+                    'password' => Hash::make('password'),
+                    'role' => 'graduate',
+                ]
+            );
 
-            Graduate::create([
-                'user_id' => $user->id,
-                'student_id' => $gradData['student_id'],
-                'program' => $gradData['program'],
-                'batch_year' => $gradData['batch_year'],
-                'graduation_date' => $gradData['graduation_date'],
-                'phone' => $gradData['phone'],
-                'address' => $gradData['address'],
-                'is_employed' => $gradData['is_employed'],
-                'current_position' => $gradData['current_position'] ?? null,
-                'current_company' => $gradData['current_company'] ?? null,
-                'employment_start_date' => $gradData['employment_start_date'] ?? null,
-                'salary' => $gradData['salary'] ?? null,
-            ]);
+            Graduate::updateOrCreate(
+                [
+                    'user_id' => $user->id,
+                ],
+                [
+                    'student_id' => $gradData['student_id'],
+                    'program' => $gradData['program'],
+                    'batch_year' => $gradData['batch_year'],
+                    'graduation_date' => $gradData['graduation_date'],
+                    'phone' => $gradData['phone'],
+                    'address' => $gradData['address'],
+                    'is_employed' => $gradData['is_employed'],
+                    'current_position' => $gradData['current_position'] ?? null,
+                    'current_company' => $gradData['current_company'] ?? null,
+                    'employment_start_date' => $gradData['employment_start_date'] ?? null,
+                    'salary' => $gradData['salary'] ?? null,
+                ]
+            );
         }
 
         // Create demo job postings
@@ -144,21 +168,25 @@ class DemoUserSeeder extends Seeder
         ];
 
         foreach ($jobPostings as $jobData) {
-            JobPosting::create([
-                'posted_by' => $staff->id,
-                'title' => $jobData['title'],
-                'description' => $jobData['description'],
-                'company' => $jobData['company'],
-                'location' => $jobData['location'],
-                'employment_type' => $jobData['employment_type'],
-                'salary_min' => $jobData['salary_min'],
-                'salary_max' => $jobData['salary_max'],
-                'requirements' => $jobData['requirements'],
-                'benefits' => $jobData['benefits'],
-                'application_deadline' => $jobData['application_deadline'],
-                'status' => $jobData['status'],
-                'is_active' => $jobData['is_active'],
-            ]);
+            JobPosting::updateOrCreate(
+                [
+                    'title' => $jobData['title'],
+                    'company' => $jobData['company'],
+                ],
+                [
+                    'posted_by' => $staff->id,
+                    'description' => $jobData['description'],
+                    'location' => $jobData['location'],
+                    'employment_type' => $jobData['employment_type'],
+                    'salary_min' => $jobData['salary_min'],
+                    'salary_max' => $jobData['salary_max'],
+                    'requirements' => $jobData['requirements'],
+                    'benefits' => $jobData['benefits'],
+                    'application_deadline' => $jobData['application_deadline'],
+                    'status' => $jobData['status'],
+                    'is_active' => $jobData['is_active'],
+                ]
+            );
         }
     }
 }

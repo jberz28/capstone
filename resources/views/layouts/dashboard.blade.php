@@ -182,7 +182,7 @@
 <body class="font-sans antialiased bg-gray-100">
     <div class="flex h-screen">
         <!-- Sidebar -->
-        <div class="w-64 sidebar-enhanced text-white flex flex-col fixed lg:relative inset-y-0 left-0 z-50 transform lg:translate-x-0 transition-all duration-300 ease-in-out" id="sidebar">
+        <div class="w-72 lg:w-64 -translate-x-full lg:translate-x-0 sidebar-enhanced text-white flex flex-col fixed lg:relative inset-y-0 left-0 z-50 transform transition-all duration-300 ease-in-out" id="sidebar">
             <!-- Logo and Toggle -->
             <div class="p-4">
                 <div class="flex items-center justify-between">
@@ -197,9 +197,13 @@
                                 <i class="fas fa-university text-white text-lg"></i>
                             </div>
                         </div>
-                        <!-- Fold Toggle Button -->
+                        <!-- Fold Toggle Button (desktop) -->
                         <button onclick="toggleSidebarFold()" class="hidden lg:block p-1 text-white hover:text-blue-200 transition-colors" id="fold-toggle">
                             <i class="fas fa-chevron-left text-xs"></i>
+                        </button>
+                        <!-- Close Button (mobile) -->
+                        <button onclick="toggleSidebar()" class="lg:hidden p-2 text-white/80 hover:text-white transition-colors" aria-label="Close menu">
+                            <i class="fas fa-times"></i>
                         </button>
                     </div>
                 </div>
@@ -414,19 +418,23 @@
     </div>
 
     <!-- Mobile Sidebar Overlay -->
-    <div id="sidebar-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden hidden" onclick="toggleSidebar()"></div>
+    <div id="sidebar-overlay" class="fixed inset-0 bg-black/50 backdrop-blur-[1px] z-40 lg:hidden hidden" onclick="toggleSidebar()"></div>
 
     <script>
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('sidebar-overlay');
-            
-            if (sidebar.classList.contains('-translate-x-full')) {
+            const body = document.body;
+
+            const isClosed = sidebar.classList.contains('-translate-x-full');
+            if (isClosed) {
                 sidebar.classList.remove('-translate-x-full');
                 overlay.classList.remove('hidden');
+                body.classList.add('overflow-hidden');
             } else {
                 sidebar.classList.add('-translate-x-full');
                 overlay.classList.add('hidden');
+                body.classList.remove('overflow-hidden');
             }
         }
 

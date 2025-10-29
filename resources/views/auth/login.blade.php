@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative" style="background-image: url('{{ asset('images/balubals.jpg') }}'); background-size: cover; background-position: center; background-repeat: no-repeat; background-attachment: fixed;">
+<div id="login-bg" class="min-h-screen flex items-center justify-center py-10 px-4 sm:px-6 lg:px-8 relative" style="background-image: url('{{ asset('images/balubals.jpg') }}'); background-size: cover; background-position: center; background-repeat: no-repeat; background-attachment: fixed;">
     <!-- Dark overlay for better text readability -->
     <div class="absolute inset-0 bg-blue bg-opacity-50"></div>
     
@@ -14,7 +14,7 @@
             <p class="text-blue-200">Sign in to your account</p>
         </div>
         
-        <div class="bg-white rounded-lg shadow-xl p-8">
+        <div class="bg-white/95 backdrop-blur-sm rounded-lg shadow-xl p-8">
             <form method="POST" action="{{ route('login') }}" class="space-y-6">
                 @csrf
                 
@@ -60,7 +60,7 @@
                     </button>
                 </div>
 
-                <div class="text-center">
+                <div class="text-center mt-2">
                     <p class="text-sm text-gray-600">
                         Need an account? Contact your administrator.
                     </p>
@@ -88,4 +88,23 @@
         </div>
     </div>
 </div>
+
+@push('scripts')
+<script>
+    // Disable fixed background on small screens to improve scroll/paint perf
+    (function() {
+        const el = document.getElementById('login-bg');
+        function applyBgAttachment() {
+            if (!el) return;
+            if (window.innerWidth < 768) {
+                el.style.backgroundAttachment = 'scroll';
+            } else {
+                el.style.backgroundAttachment = 'fixed';
+            }
+        }
+        applyBgAttachment();
+        window.addEventListener('resize', applyBgAttachment);
+    })();
+</script>
+@endpush
 @endsection
