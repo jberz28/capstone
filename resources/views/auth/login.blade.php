@@ -68,24 +68,7 @@
             </form>
         </div>
 
-        <!-- Demo Accounts -->
-        <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20">
-            <h3 class="text-lg font-semibold text-white mb-4 text-center">Demo Accounts</h3>
-            <div class="space-y-3 text-sm">
-                <div class="flex justify-between items-center text-blue-200">
-                    <span><i class="fas fa-user-shield mr-2"></i>Admin:</span>
-                    <span class="font-mono">admin@ustp.edu.ph / password</span>
-                </div>
-                <div class="flex justify-between items-center text-blue-200">
-                    <span><i class="fas fa-users mr-2"></i>Staff:</span>
-                    <span class="font-mono">staff@ustp.edu.ph / password</span>
-                </div>
-                <div class="flex justify-between items-center text-blue-200">
-                    <span><i class="fas fa-user-graduate mr-2"></i>Graduate:</span>
-                    <span class="font-mono">graduate@ustp.edu.ph / password</span>
-                </div>
-            </div>
-        </div>
+        
     </div>
 </div>
 

@@ -182,7 +182,7 @@
 <body class="font-sans antialiased bg-gray-100">
     <div class="flex h-screen">
         <!-- Sidebar -->
-        <div class="w-72 lg:w-64 -translate-x-full lg:translate-x-0 sidebar-enhanced text-white flex flex-col fixed lg:relative inset-y-0 left-0 z-50 transform transition-all duration-300 ease-in-out" id="sidebar">
+        <div class="w-64 -translate-x-full lg:translate-x-0 sidebar-enhanced text-white flex flex-col fixed lg:relative inset-y-0 left-0 z-50 transform transition-all duration-300 ease-in-out" id="sidebar">
             <!-- Logo and Toggle -->
             <div class="p-4">
                 <div class="flex items-center justify-between">
@@ -449,7 +449,9 @@
             if (sidebar.classList.contains('w-16')) {
                 // Expand sidebar
                 sidebar.classList.remove('w-16');
+                sidebar.classList.remove('lg:w-16');
                 sidebar.classList.add('w-64');
+                sidebar.classList.add('lg:w-64');
                 if (logoText) logoText.classList.remove('hidden');
                 navTexts.forEach(text => text.classList.remove('hidden'));
                 foldToggle.innerHTML = '<i class="fas fa-chevron-left text-xs"></i>';
@@ -459,7 +461,9 @@
             } else {
                 // Collapse sidebar
                 sidebar.classList.remove('w-64');
+                sidebar.classList.remove('lg:w-64');
                 sidebar.classList.add('w-16');
+                sidebar.classList.add('lg:w-16');
                 if (logoText) logoText.classList.add('hidden');
                 navTexts.forEach(text => text.classList.add('hidden'));
                 foldToggle.innerHTML = '<i class="fas fa-chevron-right text-xs"></i>';
@@ -482,7 +486,9 @@
             if (isFolded) {
                 // Collapse sidebar
                 sidebar.classList.remove('w-64');
+                sidebar.classList.remove('lg:w-64');
                 sidebar.classList.add('w-16');
+                sidebar.classList.add('lg:w-16');
                 if (logoText) logoText.classList.add('hidden');
                 navTexts.forEach(text => text.classList.add('hidden'));
                 foldToggle.innerHTML = '<i class="fas fa-chevron-right text-xs"></i>';

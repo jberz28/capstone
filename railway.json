@@ -5,7 +5,7 @@
     "buildCommand": "composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader && npm install --legacy-peer-deps --no-audit --no-fund && npm run build"
   },
   "deploy": {
-    "startCommand": "php artisan serve --host=0.0.0.0 --port=$PORT",
+    "startCommand": "php artisan migrate --force && php artisan storage:link || true && php artisan config:cache && php artisan route:cache && php artisan serve --host=0.0.0.0 --port=$PORT",
     "healthcheckPath": "/",
     "healthcheckTimeout": 100,
     "restartPolicyType": "ON_FAILURE",
