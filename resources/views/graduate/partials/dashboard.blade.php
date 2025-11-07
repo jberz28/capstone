@@ -245,39 +245,3 @@
     </div>
 </div>
 
-<!-- Quick Actions -->
-<div class="card-enhanced p-6">
-    <h2 class="text-2xl font-display font-bold text-gray-900 mb-6">Quick Actions</h2>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <a href="{{ route('graduate.profile.enhanced') }}" class="flex items-center p-6 border border-gray-200 rounded-lg hover:bg-blue-50 hover:border-blue-300 transition-all duration-200 group">
-            <div class="p-3 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl mr-4 group-hover:scale-110 transition-transform">
-                <i class="fas fa-user text-white text-lg"></i>
-            </div>
-            <div>
-                <h3 class="text-lg font-display font-semibold text-gray-900 group-hover:text-blue-600">Update Profile</h3>
-                <p class="text-sm text-gray-500 font-body">Keep your information current</p>
-            </div>
-        </a>
-        
-        <a href="{{ route('graduate.resume') }}" class="flex items-center p-6 border border-gray-200 rounded-lg hover:bg-green-50 hover:border-green-300 transition-all duration-200 group">
-            <div class="p-3 bg-gradient-to-br from-green-500 to-green-600 rounded-xl mr-4 group-hover:scale-110 transition-transform">
-                <i class="fas fa-file-alt text-white text-lg"></i>
-            </div>
-            <div>
-                <h3 class="text-lg font-display font-semibold text-gray-900 group-hover:text-green-600">Create Resume</h3>
-                <p class="text-sm text-gray-500 font-body">Build your professional resume</p>
-            </div>
-        </a>
-        
-        <a href="{{ route('graduate.jobs') }}" class="flex items-center p-6 border border-gray-200 rounded-lg hover:bg-purple-50 hover:border-purple-300 transition-all duration-200 group">
-            <div class="p-3 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl mr-4 group-hover:scale-110 transition-transform">
-                <i class="fas fa-briefcase text-white text-lg"></i>
-            </div>
-            <div>
-                <h3 class="text-lg font-display font-semibold text-gray-900 group-hover:text-purple-600">Browse Jobs</h3>
-                <p class="text-sm text-gray-500 font-body">Find new opportunities</p>
-            </div>
-        </a>
-    </div>
-</div>
-

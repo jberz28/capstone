@@ -21,8 +21,13 @@
                         <p>New job postings are waiting for your review and approval.</p>
                     </div>
                     <div class="mt-3">
-                        <a href="{{ route('admin.job-review') }}" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-yellow-800 bg-yellow-100 hover:bg-yellow-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">
-                            <i class="fas fa-clipboard-check mr-2"></i>
+                        <a href="{{ route('admin.job-postings') }}" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-yellow-800 bg-yellow-100 hover:bg-yellow-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">
+                            <span class="relative">
+                                <i class="fas fa-clipboard-check mr-2"></i>
+                                @if($stats['pending_job_reviews'] > 0)
+                                  <span class="absolute top-0 right-0 block w-2 h-2 bg-red-500 rounded-full ring-2 ring-white" style="margin-top:-4px;margin-right:-6px;"></span>
+                                @endif
+                            </span>
                             Review Jobs
                         </a>
                     </div>
@@ -34,7 +39,7 @@
 
     <!-- Statistics Cards -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <div class="bg-white rounded-lg shadow p-6">
+        <div class="card-enhanced p-6 shadow-xl transition-transform">
             <div class="flex items-center">
                 <div class="p-2 bg-blue-100 rounded-lg">
                     <i class="fas fa-users text-blue-600 text-xl"></i>
@@ -45,7 +50,7 @@
                 </div>
             </div>
         </div>
-        <div class="bg-white rounded-lg shadow p-6">
+        <div class="card-enhanced p-6 shadow-xl transition-transform">
             <div class="flex items-center">
                 <div class="p-2 bg-green-100 rounded-lg">
                     <i class="fas fa-user-graduate text-green-600 text-xl"></i>
@@ -56,7 +61,7 @@
                 </div>
             </div>
         </div>
-        <div class="bg-white rounded-lg shadow p-6">
+        <div class="card-enhanced p-6 shadow-xl transition-transform">
             <div class="flex items-center">
                 <div class="p-2 bg-yellow-100 rounded-lg">
                     <i class="fas fa-check-circle text-yellow-600 text-xl"></i>
@@ -67,7 +72,7 @@
                 </div>
             </div>
         </div>
-        <div class="bg-white rounded-lg shadow p-6">
+        <div class="card-enhanced p-6 shadow-xl transition-transform">
             <div class="flex items-center">
                 <div class="p-2 bg-red-100 rounded-lg">
                     <i class="fas fa-hourglass-half text-red-600 text-xl"></i>
@@ -82,7 +87,7 @@
 
     <!-- Recent Activity -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div class="bg-white rounded-lg shadow p-6">
+        <div class="card-enhanced p-6 shadow-xl transition-transform">
             <h2 class="text-xl font-semibold text-gray-900 mb-4">Recent Graduates</h2>
             @if($recent_graduates->isEmpty())
                 <p class="text-gray-600">No recent graduates to display.</p>
@@ -103,7 +108,7 @@
             @endif
         </div>
 
-        <div class="bg-white rounded-lg shadow p-6">
+        <div class="card-enhanced p-6 shadow-xl transition-transform">
             <h2 class="text-xl font-semibold text-gray-900 mb-4">Recent Job Postings</h2>
             @if($recent_job_postings->isEmpty())
                 <p class="text-gray-600">No recent job postings to display.</p>

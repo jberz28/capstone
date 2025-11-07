@@ -13,9 +13,9 @@
     <div class="card-enhanced p-8 mb-8">
         <h3 class="text-2xl font-display font-bold text-gray-900 mb-6">Profile Picture</h3>
         <div class="flex items-center space-x-8">
-            <div class="w-32 h-32 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center overflow-hidden shadow-lg">
+            <div id="enhanced-avatar-container" class="w-32 h-32 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center overflow-hidden shadow-lg">
                 @if($graduate->profile_picture)
-                    <img src="{{ asset('storage/' . $graduate->profile_picture) }}" alt="Profile Picture" class="w-full h-full object-cover" id="profile-picture-preview">
+                    <img src="{{ \Storage::url($graduate->profile_picture) }}" alt="Profile Picture" class="w-full h-full object-cover" id="profile-picture-preview">
                 @else
                     <i class="fas fa-user text-white text-3xl"></i>
                 @endif
@@ -598,6 +598,20 @@ function toggleStatusFields(status) {
 document.getElementById('profile-picture-input').addEventListener('change', function(e) {
     const file = e.target.files[0];
     if (file) {
+        // Immediate local preview while upload happens
+        try {
+            const localUrl = URL.createObjectURL(file);
+            const container = document.getElementById('enhanced-avatar-container');
+            let preview = document.getElementById('profile-picture-preview');
+            if (preview) {
+                preview.src = localUrl;
+            } else if (container) {
+                container.innerHTML = `<img src="${localUrl}" alt="Profile Picture" class="w-full h-full object-cover" id="profile-picture-preview">`;
+            }
+        } catch (err) {
+            console.warn('Local preview failed:', err);
+        }
+
         const formData = new FormData();
         formData.append('profile_picture', file);
         formData.append('_token', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
@@ -609,12 +623,58 @@ document.getElementById('profile-picture-input').addEventListener('change', func
         .then(response => response.json())
         .then(data => {
             if (data.success) {
+                let cacheBustedUrl = data.profile_picture_url + '?t=' + new Date().getTime();
+                // Normalize host to current origin in case APP_URL is misconfigured
+                try {
+                    const u = new URL(cacheBustedUrl);
+                    cacheBustedUrl = window.location.origin + u.pathname + (u.search || '');
+                } catch (_) {
+                    // ignore if URL parsing fails; use original
+                }
                 const preview = document.getElementById('profile-picture-preview');
-                if (preview) {
-                    preview.src = data.profile_picture_url + '?t=' + new Date().getTime();
-                } else {
-                    const container = document.querySelector('.w-24.h-24');
-                    container.innerHTML = `<img src="${data.profile_picture_url}?t=${new Date().getTime()}" alt="Profile Picture" class="w-full h-full object-cover" id="profile-picture-preview">`;
+                const container = document.getElementById('enhanced-avatar-container');
+
+                const applyAsBackground = () => {
+                    if (container) {
+                        container.innerHTML = '';
+                        container.style.backgroundImage = `url('${cacheBustedUrl}')`;
+                        container.style.backgroundSize = 'cover';
+                        container.style.backgroundPosition = 'center';
+                    }
+                };
+
+                const img = new Image();
+                img.onload = () => {
+                    if (preview) {
+                        preview.src = cacheBustedUrl;
+                    } else if (container) {
+                        container.innerHTML = '';
+                        img.className = 'w-full h-full object-cover';
+                        img.id = 'profile-picture-preview';
+                        container.appendChild(img);
+                    }
+                };
+                img.onerror = () => {
+                    console.error('Profile image failed to load:', cacheBustedUrl);
+                    applyAsBackground();
+                };
+                img.src = cacheBustedUrl;
+
+                // Also refresh header avatar if present
+                const headerProfilePicture = document.getElementById('header-profile-picture');
+                if (headerProfilePicture) {
+                    const existingImg = headerProfilePicture.querySelector('img');
+                    const existingIcon = headerProfilePicture.querySelector('i');
+                    if (existingImg) {
+                        existingImg.src = cacheBustedUrl;
+                    } else if (existingIcon) {
+                        existingIcon.style.display = 'none';
+                        const newImg = document.createElement('img');
+                        newImg.src = cacheBustedUrl;
+                        newImg.alt = 'Profile Picture';
+                        newImg.className = 'w-full h-full object-cover';
+                        headerProfilePicture.appendChild(newImg);
+                    }
                 }
                 alert('Profile picture updated successfully!');
             } else {

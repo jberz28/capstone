@@ -17,11 +17,11 @@
             <div class="text-center text-white mb-6">
                 <!-- University Logo -->
                 <div class="flex justify-center mb-4">
-                    <div class="bg-white/20 backdrop-blur-sm rounded-full p-3 border-2 border-white/30">
+                    <div class="bg-white/20 backdrop-blur-sm rounded-full p-6 border-4 border-white/30">
                         <!-- Replace with your USTP logo -->
-                        <img src="{{ asset('images/alumni.png') }}" alt="USTP Logo" class="w-12 h-12 object-contain">
+                        <img src="{{ asset('images/alumni.png') }}" alt="USTP Logo" style="width: 7.5rem; height: 7.5rem; object-fit:contain;">
                         <!-- Fallback icon if logo not found -->
-                        <i class="fas fa-university text-3xl text-white" style="display: none;"></i>
+                        <i class="fas fa-university text-5xl text-white" style="display: none;"></i>
                     </div>
                 </div>
                 
@@ -94,7 +94,6 @@
         </div>
     </div>
 </div>
-
 
 
 @endsection

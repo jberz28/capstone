@@ -15,7 +15,7 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="font-sans antialiased bg-gray-50">
+<body class="min-h-screen bg-gradient-to-br from-[#003057] to-[#f8a105]">
     <div id="app">
         <!-- Navigation removed to show full background -->
 
@@ -27,7 +27,7 @@
         <!-- Footer -->
         <footer class="bg-gray-800 text-white py-12">
             <div class="max-w-7xl mx-auto px-4">
-                <div class="grid md:grid-cols-3 gap-8">
+                <div class="grid md:grid-cols-4 gap-8">
                     <div>
                         <div class="flex items-center space-x-2 mb-4">
                             <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
@@ -66,6 +66,14 @@
                             <p><i class="fas fa-map-marker-alt mr-2"></i> USTP Balubal Campus</p>
                             <p><i class="fas fa-phone mr-2"></i> +63 XXX XXX XXXX</p>
                             <p><i class="fas fa-envelope mr-2"></i> info@ustp.edu.ph</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-semibold mb-4">Alumni Contact</h4>
+                        <div class="space-y-2 text-gray-300">
+                            <p class="font-bold text-yellow-400">Ms. Jamie Cruz, Coordinator</p>
+                            <p><i class="fas fa-phone mr-2"></i> +63 905 123 4567</p>
+                            <p><i class="fas fa-envelope mr-2"></i> alumni.balubal@ustp.edu.ph</p>
                         </div>
                     </div>
                 </div>

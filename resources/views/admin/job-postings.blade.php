@@ -161,15 +161,16 @@
                             </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            @if($job->status === 'active')
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                    <i class="fas fa-check-circle mr-1"></i>
-                                    Active
-                                </span>
-                            @elseif($job->status === 'pending')
+                            @if($job->status === 'pending')
                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
                                     <i class="fas fa-clock mr-1"></i>
                                     Pending
+                                    <span class="ml-2 inline-block w-2 h-2 bg-red-500 rounded-full"></span>
+                                </span>
+                            @elseif($job->status === 'active')
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                    <i class="fas fa-check-circle mr-1"></i>
+                                    Active
                                 </span>
                             @else
                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
@@ -195,8 +196,10 @@
                                 </button>
                                 
                                 @if($job->status === 'pending')
-                                <button onclick="updateJobStatus({{ $job->id }}, 'active')" 
-                                        class="text-green-600 hover:text-green-900 bg-green-50 hover:bg-green-100 px-3 py-1 rounded-md text-xs transition-colors">
+                                <button onclick="rejectJob({{ $job->id }})" class="text-red-600 hover:text-red-900 bg-red-50 hover:bg-red-100 px-3 py-1 rounded-md text-xs transition-colors">
+                                    <i class="fas fa-times mr-1"></i>Reject
+                                </button>
+                                <button onclick="approveJob({{ $job->id }})" class="text-green-600 hover:text-green-900 bg-green-50 hover:bg-green-100 px-3 py-1 rounded-md text-xs transition-colors">
                                     <i class="fas fa-check mr-1"></i>Approve
                                 </button>
                                 @endif
@@ -299,6 +302,34 @@
     </div>
 </div>
 
+<!-- Rejection Modal -->
+<div id="rejection-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden z-50">
+    <div class="flex items-center justify-center min-h-screen p-4">
+        <div class="bg-white rounded-lg shadow-xl max-w-md w-full">
+            <div class="p-6">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Reject Job Posting</h3>
+                <form id="rejection-form">
+                    <div class="mb-4">
+                        <label for="rejection_reason" class="block text-sm font-medium text-gray-700 mb-2">
+                            Reason for rejection:
+                        </label>
+                        <textarea id="rejection_reason" name="rejection_reason" rows="4" required
+                                  class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                                  placeholder="Please provide a reason for rejecting this job posting..."></textarea>
+                    </div>
+                    <div class="flex justify-end space-x-3">
+                        <button type="button" onclick="closeRejectionModal()" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">
+                            Cancel
+                        </button>
+                        <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">
+                            Reject Job
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
 function viewJob(jobId) {
     // Show loading
@@ -405,5 +436,75 @@ function clearFilters() {
     document.getElementById('search').value = '';
     window.location.href = window.location.pathname;
 }
+
+let currentJobId = null;
+function approveJob(jobId) {
+    if (confirm('Are you sure you want to approve this job posting?')) {
+        fetch(`/admin/jobs/${jobId}/approve`, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Job approved successfully!');
+                window.location.reload();
+            } else {
+                alert('Error: ' + (data.message || 'Failed to approve job'));
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error approving job. Please try again.');
+        });
+    }
+}
+function rejectJob(jobId) {
+    currentJobId = jobId;
+    document.getElementById('rejection-modal').classList.remove('hidden');
+}
+function closeRejectionModal() {
+    document.getElementById('rejection-modal').classList.add('hidden');
+    document.getElementById('rejection-form').reset();
+    currentJobId = null;
+}
+document.getElementById('rejection-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    if (!currentJobId) return;
+    const formData = new FormData(this);
+    const submitButton = this.querySelector('button[type="submit"]');
+    const originalText = submitButton.textContent;
+    submitButton.textContent = 'Rejecting...';
+    submitButton.disabled = true;
+    fetch(`/admin/jobs/${currentJobId}/reject`, {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Job rejected successfully!');
+            closeRejectionModal();
+            window.location.reload();
+        } else {
+            alert('Error: ' + (data.message || 'Failed to reject job'));
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error rejecting job. Please try again.');
+    })
+    .finally(() => {
+        submitButton.textContent = originalText;
+        submitButton.disabled = false;
+    });
+});
 </script>
 @endsection

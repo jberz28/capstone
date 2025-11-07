@@ -744,6 +744,8 @@ class GraduateController extends Controller
 
             // Store new profile picture
             $path = $request->file('profile_picture')->store('profile-pictures', 'public');
+            // Normalize path separators for Windows environments
+            $path = str_replace('\\', '/', $path);
             
             // Update graduate record
             $graduate->update(['profile_picture' => $path]);

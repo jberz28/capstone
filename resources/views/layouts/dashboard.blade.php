@@ -62,124 +62,61 @@
             background-clip: text;
         }
         
-        .card-enhanced {
+        .card-enhanced, .table-enhanced {
+            border-radius: 18px;
             background: white;
-            border-radius: 16px;
-            box-shadow: var(--shadow-md);
-            border: 1px solid #f1f5f9;
-            transition: all 0.3s ease;
+            box-shadow: 0 12px 32px -4px rgba(33,33,33,0.18), 0 2.5px 10px 0 rgba(60,60,60,0.11);
+            border: 1.5px solid #ecedf5;
+            transition: box-shadow 0.18s, transform 0.13s;
         }
-        
-        .card-enhanced:hover {
-            box-shadow: var(--shadow-lg);
-            transform: translateY(-2px);
+        .card-enhanced:hover, .table-enhanced:hover {
+            transform: translateY(-6px) scale(1.025);
+            box-shadow: 0 22px 64px -10px rgba(33,33,33,0.26), 0 9px 24px 0 rgba(50,50,50,0.17);
         }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
-            border: none;
-            border-radius: 12px;
-            padding: 12px 24px;
-            font-weight: 600;
-            font-size: 14px;
+        .btn-primary, .btn-3d {
+            background: linear-gradient(96deg,#f8a105 0%,#003057 100%);
             color: white;
-            transition: all 0.3s ease;
-            box-shadow: var(--shadow-sm);
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-1px);
-            box-shadow: var(--shadow-md);
-        }
-        
-        .input-enhanced {
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 12px 16px;
-            font-size: 14px;
-            transition: all 0.3s ease;
-            background: white;
-        }
-        
-        .input-enhanced:focus {
-            border-color: var(--color-primary);
-            box-shadow: 0 0 0 3px rgb(37 99 235 / 0.1);
-            outline: none;
-        }
-        
-        .input-enhanced:not(:disabled) {
-            pointer-events: auto !important;
-            cursor: text !important;
-        }
-        
-        .table-enhanced {
-            background: white;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: var(--shadow-md);
-            border: 1px solid #f1f5f9;
-        }
-        
-        .table-enhanced th {
-            background: #f8fafc;
+            border-radius: 13px;
+            box-shadow: 0 7px 20px 0 rgba(33,33,33,0.20);
             font-weight: 600;
-            font-size: 13px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: #64748b;
-            padding: 16px 24px;
-            border-bottom: 2px solid #e2e8f0;
+            border: none;
+            transition: box-shadow 0.15s, transform 0.13s;
         }
-        
-        .table-enhanced td {
-            padding: 16px 24px;
-            border-bottom: 1px solid #f1f5f9;
-            font-size: 14px;
+        .btn-primary:hover, .btn-3d:hover {
+            box-shadow: 0 15px 32px -8px #00305755, 0 2px 8px 0 #f8a10533;
+            transform: translateY(-2px) scale(1.04);
+            filter: brightness(1.07);
         }
-        
-        .table-enhanced tbody tr:hover {
-            background: #f8fafc;
-        }
-        
-        .badge-enhanced {
-            display: inline-flex;
-            align-items: center;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
         .sidebar-enhanced {
-            background: linear-gradient(180deg, #1e3a8a 0%, #1e40af 100%);
-            box-shadow: var(--shadow-xl);
+            background: linear-gradient(168deg, #003057 70%, #f8a105 120%);
+            box-shadow: 6px 0 32px -6px #00305766;
+            border-radius: 0 22px 22px 0;
+            z-index: 20;
         }
-        
         .nav-item-enhanced {
-            border-radius: 12px;
-            padding: 12px 16px;
+            border-radius:14px;
             margin: 4px 0;
-            transition: all 0.3s ease;
-            font-weight: 500;
+            transition: box-shadow .16s, transform .13s, background .15s;
+            box-shadow: 0 1.5px 6px 0 #0030571a;
         }
-        
-        .nav-item-enhanced:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateX(4px);
-        }
-        
         .nav-item-enhanced.active {
-            background: rgba(255, 255, 255, 0.2);
-            box-shadow: var(--shadow-md);
+            background: #fff9ed;
+            box-shadow:0 4px 12px 0 #f8a10555;
+            color: #003057 !important;
+            font-weight:700;
+            transform:scale(1.07);
+        }
+        .nav-item-enhanced:hover:not(.active) {
+            background: #f8a10514;
+            transform: translateX(3px) scale(1.035);
+            box-shadow: 0 4px 16px 0 #f8a10514;
         }
     </style>
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="font-sans antialiased bg-gray-100">
+<body class="min-h-screen">
     <div class="flex h-screen">
         <!-- Sidebar -->
         <div class="w-64 -translate-x-full lg:translate-x-0 sidebar-enhanced text-white flex flex-col fixed lg:relative inset-y-0 left-0 z-50 transform transition-all duration-300 ease-in-out" id="sidebar">
@@ -299,10 +236,6 @@
                         <i class="fas fa-briefcase text-white text-lg"></i>
                         <span class="text-white font-medium nav-text">Job Postings</span>
                     </a>
-                    <a href="{{ route('admin.job-review') }}" class="w-full flex items-center space-x-4 nav-item-enhanced">
-                        <i class="fas fa-clipboard-check text-white text-lg"></i>
-                        <span class="text-white font-medium nav-text">Job Review</span>
-                    </a>
                     <a href="{{ route('admin.alumni-activities') }}" class="w-full flex items-center space-x-4 nav-item-enhanced">
                         <i class="fas fa-calendar-alt text-white text-lg"></i>
                         <span class="text-white font-medium nav-text">Alumni Activities</span>
@@ -341,7 +274,7 @@
         </div>
 
         <!-- Main Content -->
-        <div class="flex-1 flex flex-col overflow-hidden lg:ml-0 bg-gradient-to-br from-gray-50 to-gray-100">
+        <div class="flex-1 flex flex-col overflow-hidden lg:ml-0" style="background: none;">
             <!-- Top Bar -->
             <header class="bg-white/80 backdrop-blur-sm shadow-sm border-b border-gray-200">
                 <div class="px-6 py-4">
@@ -632,7 +565,7 @@
                         
                         // Update notifications list
                         notificationsList.innerHTML = `
-                            <div class="p-4 border-b border-gray-100 hover:bg-gray-50 cursor-pointer" onclick="window.location.href='{{ route('admin.job-review') }}'">
+                            <div class="p-4 border-b border-gray-100 hover:bg-gray-50 cursor-pointer" onclick="window.location.href='{{ route('admin.job-postings') }}'">
                                 <div class="flex items-start space-x-3">
                                     <div class="flex-shrink-0">
                                         <div class="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center">
@@ -640,7 +573,9 @@
                                         </div>
                                     </div>
                                     <div class="flex-1 min-w-0">
-                                        <p class="text-sm font-medium text-gray-900">${data.pendingCount} job posting${data.pendingCount > 1 ? 's' : ''} pending review</p>
+                                        <p class="text-sm font-medium text-gray-900">
+                                            ${data.pendingCount} job posting${data.pendingCount > 1 ? 's' : ''} pending review
+                                        </p>
                                         <p class="text-sm text-gray-600">Click to review pending job postings</p>
                                         <p class="text-xs text-gray-500">Just now</p>
                                     </div>

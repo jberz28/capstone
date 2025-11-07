@@ -61,7 +61,7 @@ class NewJobPostingSubmitted implements ShouldBroadcast
                 'created_at' => $this->jobPosting->created_at->diffForHumans(),
             ],
             'message' => 'New job posting submitted for review',
-            'url' => route('admin.job-review'),
+            'url' => route('admin.job-postings'),
         ];
     }
 }

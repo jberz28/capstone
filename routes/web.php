@@ -132,7 +132,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/job-postings/{jobPosting}/details', [AdminController::class, 'jobDetails'])->name('admin.job-postings.details');
         Route::post('/job-postings/{jobPosting}/status', [AdminController::class, 'updateJobStatus'])->name('admin.job-postings.status');
         Route::delete('/job-postings/{jobPosting}/delete', [AdminController::class, 'deleteJob'])->name('admin.job-postings.delete');
-        Route::get('/job-review', [AdminController::class, 'jobReview'])->name('admin.job-review');
         
         // Admin alumni activities
         Route::get('/alumni-activities', [AdminController::class, 'alumniActivities'])->name('admin.alumni-activities');

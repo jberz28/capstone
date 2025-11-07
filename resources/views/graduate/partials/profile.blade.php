@@ -6,7 +6,7 @@
             <div class="text-center mb-6">
                 <div class="w-24 h-24 bg-gray-200 rounded-full mx-auto mb-4 flex items-center justify-center overflow-hidden border-2 border-gray-300 shadow-sm">
                     @if($graduate && $graduate->profile_picture)
-                        <img src="{{ asset('storage/' . $graduate->profile_picture) }}" alt="Profile Picture" class="w-full h-full object-cover">
+                        <img src="{{ \Storage::url($graduate->profile_picture) }}" alt="Profile Picture" class="w-full h-full object-cover">
                     @else
                         <i class="fas fa-user text-gray-400 text-3xl"></i>
                     @endif
@@ -47,7 +47,7 @@
                     <div class="flex-shrink-0">
                         <div class="w-24 h-24 bg-yellow-400 rounded-full flex items-center justify-center overflow-hidden border-2 border-yellow-500 shadow-md">
                             @if($graduate && $graduate->profile_picture)
-                                <img src="{{ asset('storage/' . $graduate->profile_picture) }}" alt="Profile Picture" class="w-full h-full object-cover" id="profile-picture-preview">
+                                <img src="{{ \Storage::url($graduate->profile_picture) }}" alt="Profile Picture" class="w-full h-full object-cover" id="profile-picture-preview">
                             @else
                                 <i class="fas fa-user text-blue-900 text-3xl"></i>
                             @endif
