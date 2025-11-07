@@ -7,8 +7,9 @@ WORKDIR /var/www/html
 # Copy all project files
 COPY . .
 
-# Install required PHP extensions for Laravel
-RUN docker-php-ext-install pdo pdo_mysql
+# Install required PHP extensions for Laravel (MySQL + PostgreSQL)
+RUN apt-get update && apt-get install -y libpq-dev \
+    && docker-php-ext-install pdo pdo_mysql pdo_pgsql
 
 # Enable Apache mod_rewrite (required for Laravel routing)
 RUN a2enmod rewrite
